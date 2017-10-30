@@ -1,0 +1,28 @@
+{
+  "name": "page-willie",
+  "version": "1.0.0",
+  "description": "An app that lets one ask Willie Chalmers III for help",
+  "main": "index.js",
+  "repository": "https://github.com/TheCraftKid/page-willie",
+  "author": "Willie Chalmers III <willieechalmers@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "polymer build",
+    "deploy": "polymer build && .firebase deploy --only hosting",
+    "start": "firebase serve | sed -e 's/^/[server] /' & npm-watch build"
+  },
+  "devDependencies": {
+    "eslint": "^4.10.0",
+    "eslint-config-google": "^0.9.1",
+    "eslint-plugin-html": "^3.2.2",
+    "firebase-tools": "^3.13.1",
+    "npm-watch": "^0.3.0",
+    "polymer-cli": "^1.5.7"
+  },
+  "watch": {
+    "build": {
+      
+    }
+  }
+}
