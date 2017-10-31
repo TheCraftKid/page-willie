@@ -9,6 +9,7 @@
   "private": true,
   "scripts": {
     "build": "polymer build",
+    "test": "eslint .",
     "deploy": "polymer build && .firebase deploy --only hosting",
     "start": "firebase serve | sed -e 's/^/[server] /' & npm-watch build"
   },
@@ -22,7 +23,11 @@
   },
   "watch": {
     "build": {
-      
+      "delay": 2000,
+      "patterns": [
+        "src"
+      ],
+      "extensions": "html,js,json"
     }
   }
 }
