@@ -1,13 +1,150 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-styles/typography.html">
+<link rel="import" href="../bower_components/paper-styles/color.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-messaging.html">
 
 <dom-module id="pager-app">
   <template>
-    <style>
+    <style include="iron-flex iron-flex-alignment">
       :host {
+        --app-primary-color: var(--paper-blue-500);
+        --app-secondary-color: var(--paper-green-a200);
         display: block;
       }
+
+      app-toolbar {
+        color: #ffffff;
+        background-color: var(--app-primary-color);
+      }
+
+      paper-button.main-button {
+        background: var(--app-secondary-color);
+      }
+
+      paper-toast {
+        width: 100%;
+        max-width: 1280px;
+      }
+
+      section {
+        padding: 16px;
+      }
+
+      main {
+        @apply --layout-horiztonal;
+        @apply --layout-center-justified;
+      }
+
+      footer {
+        padding: 24px;
+        width: 100%;
+        background: var(--paper-grey-500);
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 16px;
+        grid-auto-rows: minmax(24px, auto);
+      }
+
+      footer>a {
+        color: black;
+        text-decoration: none;
+      }
+
+      section.container {
+        max-width: 368px;
+        margin: 0 auto;
+        @apply --layout-wrap;
+        @apply --layout-vertical;
+      }
+
+      .request-container {
+        padding: 16px;
+      }
+
+      .main-text {
+        margin-top: 16px;
+        text-align: center;
+        @apply --paper-font-subhead;
+      }
+
+      .footer-item-end {
+        text-align: end;
+      }
     </style>
-    <h2>Hello [[prop1]]!</h2>
+
+    <firebase-app auth-domain="help-pager.firebaseapp.com" database-url="https://help-pager.firebaseio.com" api-key="AIzaSyCzt5XZJqWCSOszJeHkem6LN4MuyXylI7w"
+      storage-bucket="help-pager.appspot.com" messaging-sender-id="745636416194">
+    </firebase-app>
+
+    <firebase-auth id="auth" user="{{user}}" provider="google" on-error="handleAuthError">
+    </firebase-auth>
+
+    <paper-dialog id="pageWillieDialog">
+      <h2>Page a Willie</h2>
+      <paper-dialog-scrollable>
+        <div class="request-container">
+          <paper-input label="Name"></paper-input>
+          <paper-dropdown-menu class="options" label="Reason">
+            <paper-listbox selected-item="{{currentRequest.reason}}" slot="dropdown-content">
+              <paper-item>AP Computer Science help</paper-item>
+              <paper-item>AP Calculus/Pre-AP Precalculus help</paper-item>
+              <paper-item>Other help</paper-item>
+            </paper-listbox>
+          </paper-dropdown-menu>
+          <paper-input label="Email (in case I can't respond in time)">
+            <iron-icon icon="mail" slot="prefix"></iron-icon>
+          </paper-input>
+        </div>
+      </paper-dialog-scrollable>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm autofocus>Request</paper-button>
+      </div>
+    </paper-dialog>
+
+    <app-toolbar>
+      <div main-title>Page a Willie</div>
+      <paper-icon-button icon="icons:account-circle" on-tap="signIn"></paper-icon-button>
+    </app-toolbar>
+
+    <main>
+      <section id="introduction" class="container">
+        <h2>What is "Page Willie"?</h2>
+        <p>Page Willie is a service that allows you to request help from Willie Chalmers III, your tech help lord and savior.</p>
+        </aside>
+
+        <section id="pageButtonContainer" class="container">
+          <paper-button id="mainButton" class="main-button" raised on-click="pageWillie">Page Willie</paper-button>
+          <span class="main-text">Willie is [[getAvailabilityText()]] right now, but you can still page him.</span>
+        </section>
+
+        <paper-toast id="errorMessage" text="Sorry, I couldn't do that. Try again later."></paper-toast>
+        <paper-toast id="offlineMessage" text="Page Willie requires an internet connection. Please check your network connection and try again."></paper-toast>
+        <paper-toast id="requestMessage" text="Now paging Willie Chalmers III...">
+          <paper-button id="undoPageWillie" onclick="undoPageWillie">UNDO</paper-button>
+        </paper-toast>
+    </main>
+
+    <footer>
+      <a href="https://sites.google.com/view/willie-projects/page-willie">About</a>
+      <a class="footer-item-end" href="https://sites.google.com/view/willie-projects/">Projects like this</a>
+    </footer>
   </template>
 
   <script>
@@ -19,14 +156,69 @@
       static get is() { return 'pager-app'; }
       static get properties() {
         return {
-          prop1: {
-            type: String,
-            value: 'pager-app'
-          }
+          user: Object,
+          availabile: {
+            type: Boolean,
+            value: false,
+          },
+          currentRequest: Object,
         };
+      }
+
+      updateAvailability(availabile) {
+        this.availabile = availabile;
+      }
+
+      getAvailabilityText() {
+        return this.availabile ? 'available' : 'unavailable';
+      }
+
+      signIn() {
+        this.$.auth.signInWithPopup()
+          .then((response) => {
+
+          })
+          .then(handleAuthError);
+      }
+
+      pageWillie() {
+        this.$.pageWillieDialog.open();
+      }
+
+      handleAuthError(e) {
+        console.error('Error when signing in', e);
+        // TODO: Show auth-related toast
+        this.$.errorMessage.show();
+      }
+
+      generatePageRequest(reason) {
+
+      }
+
+      enableButton(option) {
+        // TOOD: Use with query selector to allow multiple paging buttons
+        this.$.mainButton.disabled = !option;
       }
     }
 
     window.customElements.define(PagerApp.is, PagerApp);
   </script>
 </dom-module>
+
+<!-- <dom-module id="pager-app">
+  <template>
+
+    
+
+     -->
+
+<!-- Begin main content >
+    
+
+    
+
+    
+  </template>
+
+  
+</dom-module> -->
