@@ -4,7 +4,7 @@ More specifically, it allows users to queue up in line by tapping a button for h
 of sorts. This can easily be modified to support requests for help from yourself or anyone else.
 
 ## Developing 
-This project uses [Yarn](https://yarnpkg.com/en/), [Polymer](https://www.polymer-project.org), and 
+This project uses the [Yarn](https://yarnpkg.com/en/), [Polymer](https://www.polymer-project.org), and 
 [Firebase](https://firebase.google.com) CLI tools, but the project already has preset configurations
 for the most common tasks needed.
 
