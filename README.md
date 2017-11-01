@@ -3,6 +3,9 @@ This website is an app to request for help from Willie Chalmers III for AP Compu
 More specifically, it allows users to queue up in line by tapping a button for help from an "admin"
 of sorts. This can easily be modified to support requests for help from yourself or anyone else.
 
+## Using
+End users can view a sample of the site [here](https://page-helper.firebaseapp.com).
+
 ## Developing 
 This project uses the [Yarn](https://yarnpkg.com/en/), [Polymer](https://www.polymer-project.org), and 
 [Firebase](https://firebase.google.com) CLI tools, but the project already has preset configurations
@@ -19,6 +22,7 @@ For rapid development, you can run:
 $ yarn run watch
 ```
 This starts the Firebase Hosting development server and rebuilds the project on file changes.
+Although, the browser must be refreshed manually to see changes. 
 
 ### Testing
 This project uses [ESLint](https://eslint.org/). Use `yarn run test` to lint the project.
