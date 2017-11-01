@@ -10,7 +10,7 @@ for the most common tasks needed.
 
 To start the local development server, run:
 ```
-$ yarn run start
+$ yarn start
 ```
 Alternatively, you can run `firebase serve` or `polymer serve`
 
