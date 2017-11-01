@@ -27,4 +27,4 @@ Currently, there are no "real" tests to verify the coherence of the app.
 ### Deploying
 First, associate the project with a Firebase project by running `firebase login`, following the 
 prompts, and then running `firebase init`
-To deploy the server to the associated Firebase project, run `yarn deploy`.
+To deploy the server to the associated Firebase project, run `yarn run deploy`.
