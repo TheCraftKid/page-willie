@@ -1,0 +1,9 @@
+{
+    "extends": "google",
+    "plugins": [
+        "html"
+    ],
+    "settings": {
+        "html/indent": "+2"
+    }
+}
