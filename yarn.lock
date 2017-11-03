@@ -209,7 +209,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/express@*", "@types/express@^4.0.30", "@types/express@^4.0.36":
+"@types/express@*", "@types/express@^4.0.30", "@types/express@^4.0.33", "@types/express@^4.0.36":
   version "4.0.39"
   resolved "https://registry.yarnpkg.com/@types/express/-/express-4.0.39.tgz#1441f21d52b33be8d4fa8a865c15a6a91cd0fa09"
   dependencies:
@@ -280,9 +280,19 @@
     "@types/rx" "*"
     "@types/through" "*"
 
+"@types/jsonwebtoken@^7.1.32":
+  version "7.2.3"
+  resolved "https://registry.yarnpkg.com/@types/jsonwebtoken/-/jsonwebtoken-7.2.3.tgz#483c8f39945e1e6d308dcc51fd4aeca5208d4dca"
+  dependencies:
+    "@types/node" "*"
+
 "@types/launchpad@^0.6.0":
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/@types/launchpad/-/launchpad-0.6.0.tgz#37296109b7f277f6e6c5fd7e0c0706bc918fbb51"
+
+"@types/lodash@^4.14.34":
+  version "4.14.80"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.80.tgz#a6b8b7900e6a7dcbc2e90d9b6dfbe3f6a7f69951"
 
 "@types/merge-stream@^1.0.28":
   version "1.0.28"
@@ -462,6 +472,12 @@
   dependencies:
     "@types/express-serve-static-core" "*"
     "@types/mime" "*"
+
+"@types/sha1@^1.1.0":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@types/sha1/-/sha1-1.1.1.tgz#ab34efa782ff948d402d896afc9f10f41e94dd44"
+  dependencies:
+    "@types/node" "*"
 
 "@types/source-map@*":
   version "0.5.2"
@@ -1796,7 +1812,7 @@ char-spinner@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/char-spinner/-/char-spinner-1.0.1.tgz#e6ea67bd247e107112983b7ab0479ed362800081"
 
-charenc@~0.0.1:
+"charenc@>= 0.0.1", charenc@~0.0.1:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/charenc/-/charenc-0.0.2.tgz#c0a1d2f3a7092e03774bfa83f14c0fc5790a8667"
 
@@ -2198,7 +2214,7 @@ cross-spawn@^5.0.1, cross-spawn@^5.1.0:
     shebang-command "^1.2.0"
     which "^1.2.9"
 
-crypt@~0.0.1:
+"crypt@>= 0.0.1", crypt@~0.0.1:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/crypt/-/crypt-0.0.2.tgz#88d7ff7ec0dfb86f713dc87bbb42d044d3e6c41b"
 
@@ -2880,7 +2896,7 @@ express@4.15.4:
     utils-merge "1.0.0"
     vary "~1.1.1"
 
-express@^4.15.3, express@^4.8.5:
+express@^4.0.33, express@^4.15.3, express@^4.8.5:
   version "4.16.2"
   resolved "https://registry.yarnpkg.com/express/-/express-4.16.2.tgz#e35c6dfe2d64b7dca0a5cd4f21781be3299e076c"
   dependencies:
@@ -3106,6 +3122,19 @@ findup-sync@^0.4.2, findup-sync@^0.4.3:
     is-glob "^2.0.1"
     micromatch "^2.3.7"
     resolve-dir "^0.1.0"
+
+firebase-functions@^0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-0.7.2.tgz#f65b71f308a6827a878e5e12aad4be086ebc8efb"
+  dependencies:
+    "@types/express" "^4.0.33"
+    "@types/jsonwebtoken" "^7.1.32"
+    "@types/lodash" "^4.14.34"
+    "@types/sha1" "^1.1.0"
+    express "^4.0.33"
+    jsonwebtoken "^7.1.9"
+    lodash "^4.6.1"
+    sha1 "^1.1.1"
 
 firebase-tools@^3.13.1:
   version "3.13.1"
@@ -4448,7 +4477,7 @@ jsonschema@^1.0.2, jsonschema@^1.1.0, jsonschema@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/jsonschema/-/jsonschema-1.2.0.tgz#d6ebaf70798db7b3a20c544f6c9ef9319b077de2"
 
-jsonwebtoken@^7.4.1:
+jsonwebtoken@^7.1.9, jsonwebtoken@^7.4.1:
   version "7.4.3"
   resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-7.4.3.tgz#77f5021de058b605a1783fa1283e99812e645638"
   dependencies:
@@ -6641,6 +6670,13 @@ setprototypeof@1.0.3:
 setprototypeof@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.1.0.tgz#d0bd85536887b6fe7c0d818cb962d9d91c54e656"
+
+sha1@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/sha1/-/sha1-1.1.1.tgz#addaa7a93168f393f19eb2b15091618e2700f848"
+  dependencies:
+    charenc ">= 0.0.1"
+    crypt ">= 0.0.1"
 
 shady-css-parser@^0.1.0:
   version "0.1.0"

@@ -11,7 +11,7 @@
     "build": "polymer build",
     "test": "eslint .",
     "deploy": "polymer build && .firebase deploy --only hosting",
-    "start": "firebase serve | sed -e 's/^/[server] /' & npm-watch build"
+    "start": "firebase serve --only hosting,functions | sed -e 's/^/[server] /' & npm-watch build"
   },
   "devDependencies": {
     "eslint": "^4.10.0",
