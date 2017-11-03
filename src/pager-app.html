@@ -18,6 +18,8 @@
 <link rel="import" href="../bower_components/polymerfire/firebase-app.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-messaging.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 
 <dom-module id="pager-app">
   <template>
@@ -47,16 +49,17 @@
       }
 
       main {
-        @apply --layout-horiztonal;
+        @apply --layout-horizontal;
         @apply --layout-center-justified;
+        min-height: 87vh;
       }
 
       footer {
         padding: 24px;
-        width: 100%;
+        width: 100vw;
         background: var(--paper-grey-500);
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         grid-gap: 16px;
         grid-auto-rows: minmax(24px, auto);
       }
@@ -68,9 +71,6 @@
 
       section.container {
         max-width: 368px;
-        margin: 0 auto;
-        @apply --layout-wrap;
-        @apply --layout-vertical;
       }
 
       .request-container {
@@ -86,6 +86,74 @@
       .footer-item-end {
         text-align: end;
       }
+
+      .container-page-button {
+        @apply --layout-vertical;
+      }
+
+      /* mobile-small */
+
+      @media all and (min-width: 0) and (max-width: 360px) and (orientation: portrait) {}
+
+      /* mobile-large */
+
+      @media all and (min-width: 361px) and (orientation: portrait) {}
+
+      /* mobile-small-landscape */
+
+      @media all and (min-width: 0) and (max-width: 480px) and (orientation: landscape) {}
+
+      /* mobile-large-landscape */
+
+      @media all and (min-width: 481px) and (orientation: landscape) {}
+
+      /* tablet-small-landscape */
+
+      @media all and (min-width: 600px) and (max-width: 960px) and (orientation: landscape) {}
+
+      /* tablet-large-landscape */
+
+      @media all and (min-width: 961px) and (orientation: landscape) {}
+
+      /* tablet-small */
+
+      @media all and (min-width: 600px) and (orientation: portrait) {}
+
+      /* tablet-large */
+
+      @media all and (min-width: 601px) and (max-width: 840px) and (orientation: portrait) {}
+
+      /* desktop-x-small-landscape */
+
+      @media all and (min-width: 0) and (max-width: 480px) and (orientation: landscape) {}
+
+      /* desktop-x-small */
+
+      @media all and (min-width: 0) and (max-width: 480px) and (max-aspect-ratio: 4/3) {}
+
+      /* desktop-small-landscape */
+
+      @media all and (min-width: 481px) and (max-width: 840px) and (orientation: landscape) {}
+
+      /* desktop-small */
+
+      @media all and (min-width: 481px) and (max-width: 840px) and (max-aspect-ratio: 4/3) {}
+
+      /* desktop-medium-landscape */
+
+      @media all and (min-width: 841px) and (max-width: 1280px) and (orientation: landscape) {}
+
+      /* desktop-medium */
+
+      @media all and (min-width: 841px) and (max-width: 1280px) and (max-aspect-ratio: 4/3) {}
+
+      /* desktop-large */
+
+      @media all and (min-width: 1281px) and (max-width: 1600px) {}
+
+      /* desktop-xlarge */
+
+      @media all and (min-width: 1601px) and (max-width: 1920px) {}
     </style>
 
     <firebase-app auth-domain="help-pager.firebaseapp.com" database-url="https://help-pager.firebaseio.com" api-key="AIzaSyCzt5XZJqWCSOszJeHkem6LN4MuyXylI7w"
@@ -94,6 +162,9 @@
 
     <firebase-auth id="auth" user="{{user}}" provider="google" on-error="handleAuthError">
     </firebase-auth>
+
+    <firebase-document path="/requests/[[requestId]]" data="{{currentRequest}}"></firebase-document>
+    <firebase-query app-name="page-helper" path="/requests" data="{{allRequests}}"></firebase-query>
 
     <paper-dialog id="pageWillieDialog">
       <h2>Page a Willie</h2>
@@ -113,8 +184,8 @@
         </div>
       </paper-dialog-scrollable>
       <div class="buttons">
-        <paper-button dialog-dismiss>Cancel</paper-button>
-        <paper-button dialog-confirm autofocus>Request</paper-button>
+        <paper-button dialog-dismiss on-tap="cancelRequest">Cancel</paper-button>
+        <paper-button dialog-confirm autofocus on-tap="pageWillie">Request</paper-button>
       </div>
     </paper-dialog>
 
@@ -129,9 +200,15 @@
         <p>Page Willie is a service that allows you to request help from Willie Chalmers III, your tech help lord and savior.</p>
         </aside>
 
-        <section id="pageButtonContainer" class="container">
+        <section id="pageButtonContainer" class="container container-page-button">
           <paper-button id="mainButton" class="main-button" raised on-click="pageWillie">Page Willie</paper-button>
-          <span class="main-text">Willie is [[getAvailabilityText()]] right now, but you can still page him.</span>
+          <span class="main-text">[[getAvailabilityText()]]</span>
+        </section>
+
+        <section id="latestRequests" class="container">
+          <dom-repeat items="[[allRequests]]" as="request">
+
+          </dom-repeat>
         </section>
 
         <paper-toast id="errorMessage" text="Sorry, I couldn't do that. Try again later."></paper-toast>
@@ -149,6 +226,7 @@
 
   <script>
     /**
+     * The primary app for the 
      * @customElement
      * @polymer
      */
@@ -157,26 +235,39 @@
       static get properties() {
         return {
           user: Object,
-          availabile: {
+          requestId: {
+
+          },
+          available: {
             type: Boolean,
             value: false,
           },
           currentRequest: Object,
+          allRequests: {
+            type: Object,
+            observer: 'requestsChanged',
+          },
         };
       }
 
-      updateAvailability(availabile) {
-        this.availabile = availabile;
+      requestsChanged(newData, oldData) {
+        console.log('Old data:', oldData);
+        console.log('New data:', newData);
+      }
+
+      updateAvailability(available) {
+        this.available = available;
       }
 
       getAvailabilityText() {
-        return this.availabile ? 'available' : 'unavailable';
+        return `Willie is ${this.available ? 'available' : 'unavailable'} 
+        right now, ${this.available ? '' : 'you can still page him.'}`;
       }
 
       signIn() {
         this.$.auth.signInWithPopup()
           .then((response) => {
-
+            console.info('Sign in successful', response);
           })
           .then(handleAuthError);
       }
@@ -191,8 +282,13 @@
         this.$.errorMessage.show();
       }
 
-      generatePageRequest(reason) {
-
+      generatePageRequest(name, reason, email) {
+        this.currentRequest = new Object();
+        return {
+          name: name,
+          reason: reason,
+          email: email,
+        };
       }
 
       enableButton(option) {
