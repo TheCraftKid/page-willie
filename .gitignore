@@ -2,3 +2,4 @@ bower_components/
 node_modules/
 build/
 firebase-debug.log
+yarn-error.log
