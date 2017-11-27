@@ -1,25 +1,44 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=no">
-    
-    <title>Page a Willie</title>
-    <meta name="description" content="An app to request help from Willie Chalmers III">
-    
-    <!-- See https://goo.gl/OOhYW5 -->
-    <link rel="manifest" href="/manifest.json">
-    <link rel="shortcut icon" href="/images/icons/icon-72x72.png">
-    
-    <meta name="theme-color" content="#2196F3">
 
-    <script src="/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
-    
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-    <link rel="stylesheet" href="/src/styles.css">
-    <link rel="import" href="/src/pager-app.html">
-  </head>
-  <body>
-    <pager-app></pager-app>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=no">
+
+  <title>Page a Willie</title>
+  <meta name="description" content="An app to request help from Willie Chalmers III">
+
+  <!-- See https://goo.gl/OOhYW5 -->
+  <link rel="manifest" href="/manifest.json">
+  <link rel="shortcut icon" href="/images/icons/icon-72x72.png">
+
+  <meta name="theme-color" content="#2196F3">
+
+  <script src="/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  <link rel="stylesheet" href="/src/styles.css">
+  <link rel="import" href="/src/pager-app.html">
+
+  <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    const config = {
+      apiKey: "AIzaSyCzt5XZJqWCSOszJeHkem6LN4MuyXylI7w",
+      authDomain: "help-pager.firebaseapp.com",
+      databaseURL: "https://help-pager.firebaseio.com",
+      projectId: "help-pager",
+      storageBucket: "help-pager.appspot.com",
+      messagingSenderId: "745636416194"
+    };
+    firebase.initializeApp(config);
+  </script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
+</head>
+
+<body>
+  <pager-app id="app"></pager-app>
+</body>
+
 </html>
