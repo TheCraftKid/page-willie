@@ -1,0 +1,68 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="pager-styles.html">
+
+<dom-module id="pager-database">
+  <template>
+    <style include="pager-styles">
+      :host {
+        display: block;
+      }
+    </style>
+
+    <script>
+      /**
+       * @customElements
+       * @polymer
+       */
+      class PagerDatabase extends Polymer.Element {
+        static get is() {
+          return 'pager-database';
+        }
+        static get properties() {
+          return {
+          };
+        }
+
+        /**
+         * Adds a new request to the queue of current requests.
+         *
+         * @param {String} name The nickname for the user requesting help
+         * @param {String} email The email of the user requesting help
+         * @param {String} reason The user-readable reason for requesting help
+         * @return {Promise} A promise that resolves after all available helpers
+         *                   have been notified
+         */
+        pageWillie(name, email, reason) {
+          return this._database.ref('/requests').push({
+            name: name,
+            email: email,
+            reason: reason,
+          });
+        }
+
+        fetchRequests() {
+          return firebase.database().ref('/requests').once((snap) => {
+
+          })
+            .catch((err) => {
+              console.error(err);
+            });
+        }
+
+        /**
+         * @param {String} userId The UID for the user to verify admin privileges
+         * @return {Boolean} Whether or not the given userId is associated with
+         *                   admin privileges
+         */
+        getAdminStatus(userId) {
+          return this._database().ref('/users/' + userId).once('value')
+            .then((snapshot) => {
+              return typeof snapshot.val() == Boolean && snapshot.val();
+            });
+        }
+      }
+
+      window.customElements.define(PagerDatabase.is, PagerDatabase);
+    </script>
+</dom-module>
