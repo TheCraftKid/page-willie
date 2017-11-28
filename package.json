@@ -10,7 +10,7 @@
   "scripts": {
     "build": "polymer build",
     "test": "eslint .",
-    "deploy": "polymer build && .firebase deploy --only hosting",
+    "deploy": "polymer build && firebase deploy --only hosting,functions",
     "start": "firebase serve --only hosting,functions | sed -e 's/^/[server] /' & npm-watch build"
   },
   "devDependencies": {
