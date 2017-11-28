@@ -1,0 +1,57 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="pager-button">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      paper-button {
+        background: var(--app-secondary-color);
+      }
+    </style>
+
+    <paper-button id="mainButton" class="main-button" raised on-click="[[onClick]]" disabled="[[disabled]]">
+      Page Willie
+    </paper-button>
+  </template>
+  <script>
+    /**
+     * A button that monitors a given database location to enable functionality.
+     * This must be used with a firebase-app element to ensure proper functionality.
+     *
+     * @customElement
+     * @polymer
+     */
+    class PagerButton extends Polymer.Element {
+      static get is() {
+        return 'pager-button';
+      }
+
+      static get properties() {
+        return {
+          disabled: {
+            type: Boolean,
+            value: false,
+          },
+          location: String,
+          onClick: {
+            type: Function,
+          }
+        }
+      }
+
+      disable() {
+        this.disabled = true;
+      }
+
+      enable() {
+        this.disabled = false;
+      }
+    }
+
+    window.customElements.define(PagerButton.is, PagerButton);
+  </script>
+</dom-module>
