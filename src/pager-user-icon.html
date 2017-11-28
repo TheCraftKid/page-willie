@@ -1,0 +1,66 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+
+<link rel="import" href="pager-styles.html">
+
+<dom-module id="pager-user-icon">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .icon-mask {
+        width: 40px;
+        height: 40px;
+        position: relative;
+        overflow: hidden;
+        border-radius: 50%;
+      }
+
+      .user-image {
+        display: inline;
+        margin: 0 auto;
+      }
+    </style>
+
+    <div class="icon-mask">
+      <iron-image class="user-image" src="[[imageUrl]]"></iron-image>
+    </div>
+    <paper-icon-button id="accountIcon" icon="icons:account-circle" on-tap="signIn"></paper-icon-button>
+  </template>
+
+  <script>
+    /**
+     * A profile icon that launches an account management dialog when selected.
+     *
+     * @customElement
+     * @polymer
+     */
+    class PagerUserIcon extends Polymer.Element {
+      static get is() {
+        return 'pager-user-icon';
+      }
+
+      static get properties() {
+        return {
+          user: Object,
+          imageUrl: {
+            type: String,
+            observer: '_onImageUrlChanged'
+          },
+        };
+      }
+
+      _onImageUrlChanged(newUrl, oldUrl) {
+        if (newUrl) {
+          // Only show accountIcon when there's not a url to show
+          this.$.accountIcon.style.visibility = 'none'
+        }
+      }
+    }
+
+    window.customElements.define(PagerUserIcon.is, PagerUserIcon);
+  </script>
+</dom-module>
