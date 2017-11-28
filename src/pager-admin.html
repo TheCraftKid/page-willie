@@ -1,0 +1,66 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+
+<link rel="import" href="pager-styles.html">
+
+<dom-module id="pager-admin">
+  <template>
+    <style include="pager-styles">
+      :host {
+        display: block;
+      }
+
+      .primary-text {
+      }
+
+      .caption {
+
+      }
+
+      h2 {
+
+      }
+    </style>
+
+    <h2>Requests</h2>
+    <template is="dom-repeat" items="[[requests]]" as="request">
+      <paper-item>
+        <div>Request from
+          <span class="primary-text">[[request.name]] ([[request.email]])</span>
+        </div>
+        <div>
+          <span class="caption">[[request.reason]]</span>
+        </div>
+      </paper-item>
+    </template>
+
+
+    <script>
+      /**
+       * @customElements
+       * @polymer
+       */
+      class PagerAdmin extends Polymer.Element {
+        static get is() {
+          return 'pager-admin';
+        }
+        static get properties() {
+          return {
+            requests: {
+              type: Array,
+              value() {
+                return [];
+              },
+            }
+          };
+        }
+
+        connectedCallback() {
+
+        }
+
+      }
+
+      window.customElements.define(PagerAdmin.is, PagerAdmin);
+    </script>
+</dom-module>
