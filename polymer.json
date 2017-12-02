@@ -6,7 +6,8 @@
   "extraDependencies": [
     "manifest.json",
     "bower_components/webcomponentsjs/webcomponents-lite.js",
-    "index.html"
+    "index.html",
+    "service-worker.js"
   ],
   "lint": {
     "rules": [
