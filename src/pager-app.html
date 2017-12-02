@@ -33,29 +33,17 @@
       :host {
         --app-primary-color: var(--paper-blue-500);
         --app-secondary-color: var(--paper-green-a200);
+        --toolbar-height: 56px;
         display: block;
-      }
-
-      @media only screen and (min-device-width: 640px) {
-        :root {
-          --toolbar-height: {
-            height: 48px;
-          }
-        }
-      }
-
-      @media only screen and (min-device-width: 768px) {
-        :root {
-          --toolbar-height: {
-            height: 56px;
-          }
-        }
       }
 
       app-toolbar {
         color: #ffffff;
         height: var(--toolbar-height);
         background-color: var(--app-primary-color);
+        top: 0px;
+        position: sticky;
+        box-shadow: 0px 5px 2px -3px rgba(0, 0, 0, 0.2);
       }
 
       paper-toast {
@@ -111,69 +99,15 @@
         @apply --layout-center-justified;
       }
 
-      /* mobile-small */
+      /* Some type of desktop */
 
-      @media all and (min-width: 0) and (max-width: 360px) and (orientation: portrait) {}
-
-      /* mobile-large */
-
-      @media all and (min-width: 361px) and (orientation: portrait) {}
-
-      /* mobile-small-landscape */
-
-      @media all and (min-width: 0) and (max-width: 480px) and (orientation: landscape) {}
-
-      /* mobile-large-landscape */
-
-      @media all and (min-width: 481px) and (orientation: landscape) {}
-
-      /* tablet-small-landscape */
-
-      @media all and (min-width: 600px) and (max-width: 960px) and (orientation: landscape) {}
-
-      /* tablet-large-landscape */
-
-      @media all and (min-width: 961px) and (orientation: landscape) {}
-
-      /* tablet-small */
-
-      @media all and (min-width: 600px) and (orientation: portrait) {}
-
-      /* tablet-large */
-
-      @media all and (min-width: 601px) and (max-width: 840px) and (orientation: portrait) {}
-
-      /* desktop-x-small-landscape */
-
-      @media all and (min-width: 0) and (max-width: 480px) and (orientation: landscape) {}
-
-      /* desktop-x-small */
-
-      @media all and (min-width: 0) and (max-width: 480px) and (max-aspect-ratio: 4/3) {}
-
-      /* desktop-small-landscape */
-
-      @media all and (min-width: 481px) and (max-width: 840px) and (orientation: landscape) {}
-
-      /* desktop-small */
-
-      @media all and (min-width: 481px) and (max-width: 840px) and (max-aspect-ratio: 4/3) {}
-
-      /* desktop-medium-landscape */
-
-      @media all and (min-width: 841px) and (max-width: 1280px) and (orientation: landscape) {}
-
-      /* desktop-medium */
-
-      @media all and (min-width: 841px) and (max-width: 1280px) and (max-aspect-ratio: 4/3) {}
-
-      /* desktop-large */
-
-      @media all and (min-width: 1281px) and (max-width: 1600px) {}
-
-      /* desktop-xlarge */
-
-      @media all and (min-width: 1601px) and (max-width: 1920px) {}
+      @media all and (min-width: 481px) and (max-width: 1600px) {
+        :root {
+          --toolbar-height: {
+            height: 64px;
+          }
+        }
+      }
     </style>
 
     <paper-dialog id="pageWillieDialog">
