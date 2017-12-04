@@ -1,4 +1,3 @@
-
 const gulp = require('gulp');
 const mergeStream = require('merge-stream');
 const minify = require('uglify-js');
@@ -57,6 +56,11 @@ gulp.task('generatePushManifest', () => {
     .pipe(gulp.dest('build/'));
 });
 
+/**
+ * Inserts the Firebase script tags to load using Firebase Hosting's CDN.
+ */
 function injectFirebase() {
+  const latestFireabseVersion = '4.6.2';
+  const url = `/__/firebase/${latestFirebaseVersion}/firebase-app.js`;
   // return function
 }
