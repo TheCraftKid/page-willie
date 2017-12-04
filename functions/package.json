@@ -1,9 +1,19 @@
 {
   "name": "pager-functions",
   "description": "Cloud Functions for Firebase for Page Willie",
+  "scripts": {
+    "compile": "tsc",
+    "deploy": "firebase deploy --only functions",
+    "install": "yarn run compile"
+  },
   "dependencies": {
-    "firebase-admin": "~5.2.1",
+    "firebase-admin": "^5.2.1",
     "firebase-functions": "^0.7.2"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "firebase-tools": "^3.15.4",
+    "tslint": "^5.8.0",
+    "typescript": "^2.6.2"
+  }
 }
