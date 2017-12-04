@@ -23,7 +23,7 @@ export function checkAdminStatus(uid: string): Promise<boolean> {
  * @return {string[]} A list of current admin UIDs
  */
 export function getAdmins(): Promise<string[]> {
-  return new Promise((resolve, reject) => {
+  return new Promise<string[]>((resolve, reject) => {
     database().ref('/admin').once('value')
       .then((snap) => resolve(snap.val() as string[]))
       .catch((err) => reject(err));
