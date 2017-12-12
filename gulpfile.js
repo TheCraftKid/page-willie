@@ -1,4 +1,6 @@
+
 const gulp = require('gulp');
+const exec = require('child_process');
 const mergeStream = require('merge-stream');
 const minify = require('uglify-js');
 
@@ -11,8 +13,28 @@ const FIRBASE_PROJECT = require('./.firebaserc').project.default;
 
 const project = new PolymerProject(require('./polymer.json'));
 
-gulp.task('default', () => {
-  console.log('Hello, world!');
+// Build the project and starts the local dev server
+gulp.task('default', ['build']);
+
+// Starts the local Firebase dev server
+gulp.task('serve', ['serve:site', 'serve:functions']);
+
+gulp.task('serve:site', () => {
+  console.log('Starting development server.');
+  client.serve({
+    only: 'hosting',
+  }).catch((err) => {
+    console.error('Could not start local development server:', err);
+  });
+});
+
+gulp.task('serve:functions', () => {
+  console.log('Starting development server.');
+  client.serve({
+    only: 'functions',
+  }).catch((err) => {
+    console.error('Could not start local development server:', err);
+  });
 });
 
 gulp.task('build', () => {
