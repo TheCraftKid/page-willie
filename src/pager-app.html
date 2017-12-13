@@ -9,6 +9,7 @@
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
@@ -31,8 +32,6 @@
   <template>
     <style include="pager-styles iron-flex iron-flex-alignment">
       :host {
-        --app-primary-color: var(--paper-blue-500);
-        --app-secondary-color: var(--paper-green-a200);
         --toolbar-height: 56px;
         display: block;
       }
@@ -81,7 +80,7 @@
       }
 
       .request-container {
-        padding: 16px;
+        padding: 16px 0px;
       }
 
       .main-text {
