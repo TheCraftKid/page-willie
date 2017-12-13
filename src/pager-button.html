@@ -1,6 +1,8 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
+<link rel="import" href="pager-styles.html">
+
 <dom-module id="pager-button">
   <template>
     <style>
@@ -13,11 +15,12 @@
       }
     </style>
 
-    <paper-button id="mainButton" class="main-button" raised on-click="[[onClick]]" disabled="[[disabled]]">Page Willie</paper-button>
+    <paper-button id="mainButton" class="main-button" on-click="[[onClick]]" disabled="[[disabled]]" raised>Page Willie</paper-button>
   </template>
   <script>
     /**
-     * A button that monitors a given database location to enable functionality.
+     * A styled button specially designed for one purpose: to pass through
+     * paging requests.
      *
      * @customElement
      * @polymer
@@ -33,19 +36,7 @@
             type: Boolean,
             value: false,
           },
-          location: String,
-          onClick: {
-            type: Function,
-          },
         }
-      }
-
-      disable() {
-        this.disabled = true;
-      }
-
-      enable() {
-        this.disabled = false;
       }
     }
 
