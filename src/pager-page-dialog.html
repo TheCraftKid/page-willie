@@ -1,0 +1,127 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+
+<link rel="import" href="pager-styles.html">
+
+<dom-module id="pager-page-dialog">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .request-container {
+        padding: 16px 0px;
+      }
+    </style>
+
+    <paper-dialog id="pageWillieDialog">
+      <h2>Request a Willie</h2>
+      <paper-dialog-scrollable>
+        <div class="request-container">
+          <paper-input label="Name" value="{{name}}"></paper-input>
+          <paper-dropdown-menu class="options" label="Reason">
+            <paper-listbox selected-item="{{reason}}" slot="dropdown-content">
+              <paper-item>AP Computer Science help</paper-item>
+              <paper-item>AP Calculus/Pre-AP Precalculus help</paper-item>
+              <paper-item>Other help</paper-item>
+            </paper-listbox>
+          </paper-dropdown-menu>
+          <paper-input label="Email (in case I can't respond in time)" value="{{email}}">
+            <iron-icon icon="mail" slot="prefix"></iron-icon>
+          </paper-input>
+        </div>
+      </paper-dialog-scrollable>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button on-tap="pageWillie" dialog-confirm autofocus>Request</paper-button>
+      </div>
+    </paper-dialog>
+  </template>
+  <script>
+    /**
+     * A dialog that requests 
+     *
+     * @customElement
+     * @polymer
+     */
+    class PagerPageDialog extends Polymer.Element {
+      static get is() {
+        return 'pager-page-dialog';
+      }
+
+      static get properties() {
+        return {
+          email: {
+            type: String,
+            notify: true,
+          },
+          name: {
+            type: String,
+            notify: true,
+          },
+          reason: {
+            type: String,
+            notify: true,
+          },
+          onError: {
+            type: Object,
+            value: function () {
+              return ((reason, error) => {
+                return;
+              }).bind(this);
+            }
+          },
+          onSuccess: {
+            type: Object,
+            value: function () {
+              return (() => {
+                return;
+              }).bind(this);
+            }
+          },
+          lastRequest: String,
+        }
+      }
+
+      pageWillie() {
+        this.lastRequest = firebase.database().ref('/requests').push().key;
+        firebase.database().ref(`/requests/${this.lastRequest}`).set({
+          email: this.email,
+          name: this.name,
+          reason: this.reason,
+        }).then(() => {
+          // Request successful
+          // TODO: Show toast 
+        }).catch((err) => {
+          // TODO: Start callback
+          this.onError('error_internal', err);
+        });
+      }
+
+      undoPageWillie() {
+        const requestRef = firebase.database().ref(`/requests/${this.lastRequest}`);
+        requestRef.once('value')
+          .then((snap) => {
+            if (snap.val().fulfilled) {
+              requestRef.child('fulfilled').set(true).catch((err) => {
+                console.error(err); // We should really look into this
+                this.onError('error_internal', err);
+              })
+            } else {
+              this.onError('error_fulfilled');
+            }
+          }).catch((err) => {
+            this.onError('error_internal', err);
+          });
+      }
+    }
+
+    window.customElements.define(PagerPageDialog.is, PagerPageDialog);
+  </script>
+</dom-module>
