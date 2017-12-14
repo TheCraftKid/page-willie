@@ -20,7 +20,7 @@
       }
     </style>
 
-    <paper-dialog id="pageWillieDialog">
+    <paper-dialog id="dialog">
       <h2>Request a Willie</h2>
       <paper-dialog-scrollable>
         <div class="request-container">
@@ -45,7 +45,7 @@
   </template>
   <script>
     /**
-     * A dialog that requests 
+     * A dialog that requests help from an admin.
      *
      * @customElement
      * @polymer
@@ -89,6 +89,10 @@
         }
       }
 
+      open() {
+        this.$.dialog.open();
+      }
+
       pageWillie() {
         this.lastRequest = firebase.database().ref('/requests').push().key;
         firebase.database().ref(`/requests/${this.lastRequest}`).set({
@@ -112,7 +116,7 @@
               requestRef.child('fulfilled').set(true).catch((err) => {
                 console.error(err); // We should really look into this
                 this.onError('error_internal', err);
-              })
+              });
             } else {
               this.onError('error_fulfilled');
             }
