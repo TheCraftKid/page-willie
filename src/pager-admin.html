@@ -1,5 +1,9 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 
 <link rel="import" href="pager-styles.html">
 
@@ -31,13 +35,21 @@
         <div>
           <span class="caption">[[request.reason]]</span>
         </div>
+
+        <paper-menu-button>
+          <paper-icon-button icon="icons:more-vert" slot="dropdown-trigger"></paper-icon-button>
+          <paper-listbox slot="dropdown-content">
+            <paper-item>Delete request</paper-item>
+            <!-- TODO: "Wire" button to rest of element -->
+          </paper-listbox>
+        </paper-menu-button>
       </paper-item>
     </template>
 
 
     <script>
       /**
-       * @customElements
+       * @customElement
        * @polymer
        */
       class PagerAdmin extends Polymer.Element {
@@ -48,7 +60,7 @@
           return {
             requests: {
               type: Array,
-              value() {
+              value: () => {
                 return [];
               },
             }

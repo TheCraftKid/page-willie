@@ -17,7 +17,8 @@
     "paper-item": "^2.0.0",
     "paper-icon-button": "^2.0.1",
     "iron-image": "^2.1.2",
-    "paper-dialog-scrollable": "^2.1.0"
+    "paper-dialog-scrollable": "^2.1.0",
+    "paper-menu-button": "^2.0.0"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",
