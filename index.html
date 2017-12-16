@@ -20,9 +20,6 @@
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js')
-          .then(() => {
-            console.log('Service worker registered.');
-          })
           .catch((err) => {
             console.error('Service worker registration failed', err);
           });
@@ -32,23 +29,13 @@
 
   <link rel="preload" as="style" href="/src/styles.css">
   <link rel="import" href="/src/pager-app.html">
+  <!-- Load Materialize -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js" async></script>
 
-  <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js" defer></script>
-  <script defer>
-    // Initialize Firebase
-    const config = {
-      apiKey: "AIzaSyCzt5XZJqWCSOszJeHkem6LN4MuyXylI7w",
-      authDomain: "help-pager.firebaseapp.com",
-      databaseURL: "https://help-pager.firebaseio.com",
-      projectId: "help-pager",
-      storageBucket: "help-pager.appspot.com",
-      messagingSenderId: "745636416194"
-    };
-    firebase.initializeApp(config);
-  </script>
   <script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js" async></script>
   <link rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
-
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js" defer></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
   <link rel="stylesheet" href="/src/styles.css">
 
@@ -61,7 +48,6 @@
 
     gtag('config', 'UA-99670122-2');
   </script>
-
 </head>
 
 <body>
