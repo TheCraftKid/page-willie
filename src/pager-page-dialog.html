@@ -5,6 +5,8 @@
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
 
 <link rel="import" href="pager-styles.html">
 
@@ -14,28 +16,24 @@
       :host {
         display: block;
       }
-
-      .request-container {
-        padding: 16px 0px;
-      }
     </style>
 
     <paper-dialog id="dialog">
       <h2>Request a Willie</h2>
       <paper-dialog-scrollable>
-        <div class="request-container">
-          <paper-input label="Name" value="{{userName}}"></paper-input>
-          <paper-dropdown-menu class="options" label="Reason">
-            <paper-listbox attr-for-selected="value" selected="{{_reasonCode}}" slot="dropdown-content">
-              <paper-item value="apcs">AP Computer Science help</paper-item>
-              <paper-item value="advanced-maths">AP Calculus/Pre-AP Precalculus help</paper-item>
-              <paper-item value="other">Other help</paper-item>
-            </paper-listbox>
-          </paper-dropdown-menu>
-          <paper-input label="Email (in case I can't respond in time)" value="{{email}}">
-            <iron-icon icon="mail" slot="prefix"></iron-icon>
-          </paper-input>
-        </div>
+        <paper-input label="Name" value="{{userName}}" error-message="Name is required."></paper-input>
+        <paper-dropdown-menu class="options" label="Reason">
+          <paper-listbox attr-for-selected="value" selected="{{_reasonCode}}" slot="dropdown-content">
+            <paper-item value="apcs">AP Computer Science help</paper-item>
+            <paper-item value="advanced-maths">AP Calculus/Pre-AP Precalculus help</paper-item>
+            <paper-item value="other">Other help</paper-item>
+          </paper-listbox>
+        </paper-dropdown-menu>
+        <paper-input label="Email" always-float-label placeholder="Only used if you can't be reached" error-message="Email is required."
+          value="{{email}}">
+          <iron-icon icon="mail" slot="prefix"></iron-icon>
+        </paper-input>
+        <paper-textarea label="Notes for Willie" always-float-label placeholder="(Optional)" char-counter maxlength="256" value="{{notes}}"></paper-textarea>
       </paper-dialog-scrollable>
       <div class="buttons">
         <paper-button dialog-dismiss>Cancel</paper-button>
@@ -77,6 +75,10 @@
             computed: '_computeReason(_reasonCode)',
             notify: true,
           },
+          notes: {
+            type: String,
+            notify: true,
+          },
           onError: {
             type: Object,
             value: () => {
@@ -107,6 +109,7 @@
           email: this.email,
           name: this.userName,
           reason: this.reason,
+          notes: this.notes,
         }).then(() => {
           // Request successful
           // TODO: Show toast 
@@ -141,9 +144,11 @@
           case 'advanced-math':
             reason = 'AP Calculus/Pre-AP Precalculus'
             break;
-          default:
           case 'other':
             reason = 'Other help';
+            break;
+          default:
+            console.warn(`${reasonCode} is not a valid reason`);
             break;
         }
         return reason;
