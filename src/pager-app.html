@@ -56,16 +56,6 @@
         min-height: 80vh;
       }
 
-      footer {
-        padding: 24px;
-        width: 100vw;
-        background: var(--paper-grey-500);
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-gap: 16px;
-        grid-auto-rows: minmax(24px, auto);
-      }
-
       footer>a {
         color: black;
         text-decoration: none;
@@ -90,10 +80,6 @@
         font-weight: bold;
       }
 
-      .footer-item-end {
-        text-align: end;
-      }
-
       .container-page-button {
         @apply --layout-vertical;
         @apply --layout-center-justified;
@@ -110,19 +96,25 @@
       }
     </style>
 
-    <pager-page-dialog id="pageWillieDialog">
-    </pager-page-dialog>
+    <firebase-app auth-domain="help-pager.firebaseapp.com" database-url="https://help-pager.firebaseio.com/" api-key="AIzaSyCzt5XZJqWCSOszJeHkem6LN4MuyXylI7w"
+      storage-bucket="help-pager.appspot.com" messaging-sender-id="745636416194">
+    </firebase-app>
 
     <app-toolbar id="toolbar">
-      <div main-title>Page Willie <span class="alpha-text">ALPHA</span></div>
+      <div main-title>Page Willie
+        <span class="alpha-text">ALPHA</span>
+      </div>
       <paper-icon-button icon="icons:account-circle" on-tap="signIn"></paper-icon-button>
     </app-toolbar>
 
     <main>
-      <section id="introduction" class="container">
+      <pager-page-dialog id="pageWillieDialog"></pager-page-dialog>
+
+      <section id="introduction" class="container row">
         <h2>What is "Page Willie"?</h2>
         <p>Page Willie is a service that allows you to request help from Willie Chalmers III, your tech help lord and savior.</p>
-        <p>Currently, the site is in alpha status, so it may not work on your visit. If so, try again tomorrow.</p>
+        <h2>News</h2>
+        <p>Page Willie is going into beta on December 17, 2017!</p>
 
         <section id="pageButtonContainer" class="container container-page-button">
           <pager-button id="mainButton" on-click="openDialog"></pager-button>
@@ -142,12 +134,23 @@
         </paper-toast>
     </main>
 
-    <footer>
-      <a href="https://sites.google.com/view/willie-projects/page-willie">About</a>
-      <a class="footer-item-end" href="https://sites.google.com/view/willie-projects/">Projects like this</a>
+    <footer class="row">
+      <div class="col s12">
+        <h2>About Willie Chalmers III</h2>
+        <p>I'm a student freelance programmer that makes projects that help people carry out their everyday lives in a more
+          productive manner. If this project helped you in some manner, that makes me very happy.
+        </p>
+      </div>
+      <div class="col s4">
+        <h2>More about my projects</h2>
+        <a href="https://sites.google.com/view/willie-projects/page-willie">Page Willie, in depth</a>
+        <a href="https://sites.google.com/view/willie-projects/">Projects like this</a>
+      </div>
+
     </footer>
   </template>
 
+  <script src="scripts/auth.js"></script>
   <script>
     /**
      * The primary element for the Page Willie service.
@@ -165,17 +168,6 @@
             value: false,
           },
         };
-      }
-
-      connectedCallback() {
-        super.connectedCallback();
-
-        firebase.auth().onAuthStateChanged((user) => {
-          if (user) { // Signed in
-          } else {
-
-          }
-        }, (error) => console.error(error));
       }
 
       /**
@@ -198,7 +190,7 @@
 
       getAvailabilityText() {
         return `Willie is ${this.available ? 'available' : 'unavailable'} 
-                right now, ${this.available ? '' : 'you can still page him.'}`;
+                right now ${this.available ? '.' : ', but you can still page him.'}`;
       }
 
       openDialog() {
@@ -214,6 +206,10 @@
       enableButton(option) {
         // TOOD: Use with query selector to allow multiple paging buttons
         this.$.mainButton.disabled = !option;
+      }
+
+      userIsAdmin() {
+        return getIsAdmin();
       }
     }
 
