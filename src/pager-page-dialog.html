@@ -24,12 +24,12 @@
       <h2>Request a Willie</h2>
       <paper-dialog-scrollable>
         <div class="request-container">
-          <paper-input label="Name" value="{{name}}"></paper-input>
+          <paper-input label="Name" value="{{userName}}"></paper-input>
           <paper-dropdown-menu class="options" label="Reason">
-            <paper-listbox selected-item="{{reason}}" slot="dropdown-content">
-              <paper-item>AP Computer Science help</paper-item>
-              <paper-item>AP Calculus/Pre-AP Precalculus help</paper-item>
-              <paper-item>Other help</paper-item>
+            <paper-listbox attr-for-selected="value" selected="{{_reasonCode}}" slot="dropdown-content">
+              <paper-item value="apcs">AP Computer Science help</paper-item>
+              <paper-item value="advanced-maths">AP Calculus/Pre-AP Precalculus help</paper-item>
+              <paper-item value="other">Other help</paper-item>
             </paper-listbox>
           </paper-dropdown-menu>
           <paper-input label="Email (in case I can't respond in time)" value="{{email}}">
@@ -43,6 +43,8 @@
       </div>
     </paper-dialog>
   </template>
+
+  <script src="scripts/auth.js"></script>
   <script>
     /**
      * A dialog that requests help from an admin.
@@ -51,6 +53,7 @@
      * @polymer
      */
     class PagerPageDialog extends Polymer.Element {
+
       static get is() {
         return 'pager-page-dialog';
       }
@@ -61,17 +64,22 @@
             type: String,
             notify: true,
           },
-          name: {
+          userName: {
             type: String,
             notify: true,
           },
+          _reasonCode: {
+            type: String,
+            reflectToAttribute: false,
+          },
           reason: {
             type: String,
+            computed: '_computeReason(_reasonCode)',
             notify: true,
           },
           onError: {
             type: Object,
-            value: function () {
+            value: () => {
               return ((reason, error) => {
                 return;
               }).bind(this);
@@ -97,13 +105,12 @@
         this.lastRequest = firebase.database().ref('/requests').push().key;
         firebase.database().ref(`/requests/${this.lastRequest}`).set({
           email: this.email,
-          name: this.name,
+          name: this.userName,
           reason: this.reason,
         }).then(() => {
           // Request successful
           // TODO: Show toast 
         }).catch((err) => {
-          // TODO: Start callback
           this.onError('error_internal', err);
         });
       }
@@ -118,11 +125,28 @@
                 this.onError('error_internal', err);
               });
             } else {
-              this.onError('error_fulfilled');
+              this.onError('error_already_done');
             }
           }).catch((err) => {
             this.onError('error_internal', err);
           });
+      }
+
+      _computeReason(reasonCode) {
+        let reason;
+        switch (reasonCode) {
+          case 'apcs':
+            reason = 'AP Computer Science';
+            break;
+          case 'advanced-math':
+            reason = 'AP Calculus/Pre-AP Precalculus'
+            break;
+          default:
+          case 'other':
+            reason = 'Other help';
+            break;
+        }
+        return reason;
       }
     }
 
