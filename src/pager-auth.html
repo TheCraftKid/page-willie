@@ -1,0 +1,28 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="pager-auth">
+  <template>
+
+    <script>
+      /**
+       * An element for managing the currently signed in user.
+       * 
+       * @customElement
+       * @polymer
+       */
+      class PagerAuth extends Polymer.Element {
+        static get is() {
+          return 'pager-auth';
+        }
+
+        static get properties() {
+          return {
+            user: Object,
+          };
+        }
+      }
+
+      window.customElements.define(PagerAuth.is, PagerAuth);
+    </script>
+  </template>
+</dom-module>
