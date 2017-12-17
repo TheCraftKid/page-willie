@@ -209,7 +209,11 @@
       }
 
       userIsAdmin() {
-        return getIsAdmin();
+        return firebase.database().ref(`/admin/${lastUser.uid}`).once('value')
+          .then((snap) => {
+            return snap.exists();
+          });
+          
       }
     }
 
