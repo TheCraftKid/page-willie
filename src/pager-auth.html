@@ -1,7 +1,11 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
 
 <dom-module id="pager-auth">
   <template>
+    <firebase-auth id="auth" user="{{user}}"></firebase-auth>
+    <firebase-document id="userInfo"></firebase-document>
 
     <script>
       /**
@@ -18,7 +22,16 @@
         static get properties() {
           return {
             user: Object,
+            userRef: Object,
           };
+        }
+
+        signIn() {
+
+        }
+
+        isAdmin() {
+
         }
       }
 
