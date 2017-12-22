@@ -2,14 +2,18 @@
 <link rel="import" href="../bower_components/iron-image/iron-image.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-styles/element-styles/paper-material-styles.html">
 
 <link rel="import" href="pager-styles.html">
 
 <dom-module id="pager-user-icon">
   <template>
-    <style>
+    <style include="paper-material-styles">
       :host {
+        @apply --layout-inline;
+        @apply --layout-center-center;
         display: block;
+        cursor: pointer;
       }
 
       .icon-mask {
@@ -26,10 +30,10 @@
       }
     </style>
 
-    <div class="icon-mask">
+    <div class="icon-mask" hidden$="[[!signedIn]]">
       <iron-image class="user-image" src="[[imageUrl]]"></iron-image>
     </div>
-    <paper-icon-button id="accountIcon" icon="icons:account-circle" on-tap="signIn"></paper-icon-button>
+    <paper-icon-button id="accountIcon" icon="icons:account-circle" hidden="[[signedIn]]"></paper-icon-button>
   </template>
 
   <script>
@@ -52,13 +56,18 @@
             reflectToAttribute: true,
             observer: '_onImageUrlChanged'
           },
+          signedIn: {
+            type: Boolean,
+            value: false,
+          },
         };
       }
 
       _onImageUrlChanged(newUrl, oldUrl) {
         if (newUrl) {
-          // Only show accountIcon when there's not a url to show
-          this.$.accountIcon.style.visibility = 'none'
+          this.signedIn = true;
+        } else {
+          this.signedIn = false;
         }
       }
     }
