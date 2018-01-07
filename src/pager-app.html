@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
@@ -21,7 +22,9 @@
 <link rel="import" href="pager-button.html">
 <link rel="import" href="pager-database.html">
 <link rel="import" href="pager-admin.html">
+<link rel="import" href="pager-auth.html">
 <link rel="import" href="pager-page-dialog.html">
+<link rel="import" href="pager-user-icon.html">
 <link rel="import" href="pager-styles.html">
 
 <dom-module id="pager-app">
@@ -61,6 +64,12 @@
         text-decoration: none;
       }
 
+      footer {
+        padding: 24px;
+        width: 100vw;
+        background: var(--paper-grey-300);
+      }
+
       section.container {
         max-width: 368px;
       }
@@ -75,7 +84,7 @@
         text-align: center;
       }
 
-      .alpha-text {
+      .caption-text {
         @apply --paper-font-caption;
         font-weight: bold;
       }
@@ -83,6 +92,16 @@
       .container-page-button {
         @apply --layout-vertical;
         @apply --layout-center-justified;
+      }
+
+      .admin-marquee {
+        width: 192px;
+        height: 192px;
+        background-color: #E0E0E0;
+      }
+
+      .footer-item {
+        color: white;
       }
 
       /* Some type of desktop */
@@ -96,61 +115,74 @@
       }
     </style>
 
+    <pager-auth></pager-auth>
+
     <firebase-app auth-domain="help-pager.firebaseapp.com" database-url="https://help-pager.firebaseio.com/" api-key="AIzaSyCzt5XZJqWCSOszJeHkem6LN4MuyXylI7w"
       storage-bucket="help-pager.appspot.com" messaging-sender-id="745636416194">
     </firebase-app>
 
+    <pager-page-dialog id="pageWillieDialog" on-error="[[_onError]]"></pager-page-dialog>
+
     <app-toolbar id="toolbar">
       <div main-title>Page Willie
-        <span class="alpha-text">ALPHA</span>
+        <span class="caption-text">BETA</span>
       </div>
-      <paper-icon-button icon="icons:account-circle" on-tap="signIn"></paper-icon-button>
+      <pager-user-icon user="[[user]]"></pager-user-icon>
     </app-toolbar>
 
-    <main>
-      <pager-page-dialog id="pageWillieDialog"></pager-page-dialog>
+    <main class="container">
+      <div>
+        <div class="side-view row">
+          <section id="introduction" class="col s1">
+            <h2>What is this?</h2>
+            <p>Page Willie is a service that allows you to request help from Willie Chalmers III, your tech help lord and savior.</p>
+            <h2>Updates</h2>
+            <p>Page Willie is going into beta on December 24, 2017!</p>
+          </section>
+        </div>
 
-      <section id="introduction" class="container row">
-        <h2>What is "Page Willie"?</h2>
-        <p>Page Willie is a service that allows you to request help from Willie Chalmers III, your tech help lord and savior.</p>
-        <h2>News</h2>
-        <p>Page Willie is going into beta on December 17, 2017!</p>
-
-        <section id="pageButtonContainer" class="container container-page-button">
+        <section id="pageButtonContainer" class="container-page-button col s1">
+          <div>
+            <iron-image class="admin-marquee" src="../images/willie-marquee.png" sizing="cover" preload fade></iron-image>
+            <div>
+              <span class="caption-text">Willie Chalmers III</span>
+            </div>
+          </div>
           <pager-button id="mainButton" on-click="openDialog"></pager-button>
           <span class="main-text">[[getAvailabilityText()]]</span>
         </section>
+      </div>
 
-        <template is="dom-if" if="[[userIsAdmin()]]">
-          <section id="latestRequests" class="container">
-            <pager-admin></pager-admin>
-          </section>
-        </template>
-
-        <paper-toast id="errorMessage" text="Sorry, I couldn't do that. Try again later."></paper-toast>
-        <paper-toast id="offlineMessage" text="Page Willie requires an internet connection. Please check your network connection and try again."></paper-toast>
-        <paper-toast id="requestMessage" text="Now paging Willie Chalmers III...">
-          <paper-button id="undoPageWillie" onclick="undoPageWillie">UNDO</paper-button>
-        </paper-toast>
+      <template is="dom-if" if="[[true]]">
+        <section id="latestRequests" class="row">
+          <pager-admin></pager-admin>
+        </section>
+      </template>
     </main>
 
-    <footer class="row">
-      <div class="col s12">
-        <h2>About Willie Chalmers III</h2>
-        <p>I'm a student freelance programmer that makes projects that help people carry out their everyday lives in a more
-          productive manner. If this project helped you in some manner, that makes me very happy.
-        </p>
+    <footer class="container">
+      <div class="row">
+        <div class="col 13 s12">
+          <h2>About Willie Chalmers III</h2>
+          <p>I'm a student freelance programmer that makes projects that help people carry out their everyday lives in a more
+            productive manner. If this project helped you in some manner, that makes me very happy.
+          </p>
+        </div>
+        <div class="col 13 s12">
+          <h2>More about my projects</h2>
+          <a href="https://sites.google.com/view/willie-projects/page-willie">Page Willie, in depth</a>
+          <a href="https://sites.google.com/view/willie-projects/">Projects like this</a>
+        </div>
       </div>
-      <div class="col s4">
-        <h2>More about my projects</h2>
-        <a href="https://sites.google.com/view/willie-projects/page-willie">Page Willie, in depth</a>
-        <a href="https://sites.google.com/view/willie-projects/">Projects like this</a>
-      </div>
-
     </footer>
+
+    <paper-toast id="errorMessage" text="Sorry, I couldn't do that. Try again later."></paper-toast>
+    <paper-toast id="offlineMessage" text="Page Willie requires an internet connection. Please check your network connection and try again."></paper-toast>
+    <paper-toast id="requestMessage" text="Now paging Willie Chalmers III...">
+      <paper-button id="undoPageWillie" on-click="undoPageWillie">UNDO</paper-button>
+    </paper-toast>
   </template>
 
-  <script src="scripts/auth.js"></script>
   <script>
     /**
      * The primary element for the Page Willie service.
@@ -170,27 +202,9 @@
         };
       }
 
-      /**
-       * Uses FirebaseUI Web to sign in the user with a federated identity provider.
-       */
-      signIn() {
-        const UI_CONFIG = {
-          signInSuccessUrl: 'https://page-helper.firebaseapp.com/signedIn',
-          signInOptions: [
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-            firebase.auth.EmailAuthProvider.PROVIDER_ID,
-          ],
-          signInFlow: 'popup',
-          tosUrl: 'https://page-helper.firebaseapp.com/terms',
-        };
-        const ui = new firebaseui.auth.AuthUI(firebase.auth());
-        document.getElementById('firebaseUiWebContainer').style.display = 'block';
-        ui.start('#firebaseUiWebContainer', UI_CONFIG);
-      }
-
       getAvailabilityText() {
         return `Willie is ${this.available ? 'available' : 'unavailable'} 
-                right now ${this.available ? '.' : ', but you can still page him.'}`;
+                right now${this.available ? '.' : ', but you can still page him.'}`;
       }
 
       openDialog() {
@@ -208,12 +222,12 @@
         this.$.mainButton.disabled = !option;
       }
 
-      userIsAdmin() {
-        return firebase.database().ref(`/admin/${lastUser.uid}`).once('value')
-          .then((snap) => {
-            return snap.exists();
-          });
-          
+      _onError(errorCode) {
+        switch (errorCode) {
+          case 'error_unknown':
+            this.$.errorMessage.show();
+            break;
+        }
       }
     }
 
