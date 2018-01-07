@@ -27,7 +27,9 @@
         }
 
         signIn() {
-
+          this.$.auth.signInWithPopup()
+          .then(this.onSignIn)
+          .catch(this.onError);
         }
 
         isAdmin() {
