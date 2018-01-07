@@ -5,6 +5,7 @@
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
 
 <link rel="import" href="pager-styles.html">
 
@@ -21,6 +22,10 @@
 
       h2 {}
     </style>
+
+    <firebase-app auth-domain="help-pager.firebaseapp.com" database-url="https://help-pager.firebaseio.com/" api-key="AIzaSyCzt5XZJqWCSOszJeHkem6LN4MuyXylI7w"
+      storage-bucket="help-pager.appspot.com" messaging-sender-id="745636416194">
+    </firebase-app>
 
     <firebase-query id="requests" path="/requests" data="{{requests}}">
     </firebase-query>
@@ -44,30 +49,30 @@
         </paper-menu-button>
       </paper-item>
     </template>
+  </template>
 
-
-    <script>
-      /**
-       * An admin panel for managing Page Willie requests.
-       * 
-       * @customElement
-       * @polymer
-       */
-      class PagerAdmin extends Polymer.Element {
-        static get is() {
-          return 'pager-admin';
-        }
-
-        static get properties() {
-          return {
-            requests: {
-              type: Array,
-            },
-          };
-        }
-
+  <script>
+    /**
+     * An admin panel for managing Page Willie requests.
+     * 
+     * @customElement
+     * @polymer
+     */
+    class PagerAdmin extends Polymer.Element {
+      static get is() {
+        return 'pager-admin';
       }
 
-      window.customElements.define(PagerAdmin.is, PagerAdmin);
-    </script>
+      static get properties() {
+        return {
+          requests: {
+            type: Array,
+          },
+        };
+      }
+
+    }
+
+    window.customElements.define(PagerAdmin.is, PagerAdmin);
+  </script>
 </dom-module>
