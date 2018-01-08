@@ -4,7 +4,9 @@
   "scripts": {
     "compile": "tsc",
     "deploy": "firebase deploy --only functions",
-    "install": "yarn run compile"
+    "install": "yarn run compile",
+    "clean": "rm -rf data/ notify/ index.js",
+    "preinstall": "yarn run clean"
   },
   "dependencies": {
     "firebase-admin": "^5.2.1",
