@@ -25,6 +25,7 @@
 <link rel="import" href="pager-auth.html">
 <link rel="import" href="pager-page-dialog.html">
 <link rel="import" href="pager-user-icon.html">
+<link rel="import" href="pager-footer.html">
 <link rel="import" href="pager-styles.html">
 
 <dom-module id="pager-app">
@@ -54,20 +55,10 @@
       }
 
       main {
+        /* TODO: CSS Grid */
         @apply --layout-horizontal;
         @apply --layout-center-justified;
         min-height: 80vh;
-      }
-
-      footer>a {
-        color: black;
-        text-decoration: none;
-      }
-
-      footer {
-        padding: 24px;
-        width: 100vw;
-        background: var(--paper-grey-300);
       }
 
       section.container {
@@ -100,22 +91,24 @@
         background-color: #E0E0E0;
       }
 
-      .footer-item {
-        color: white;
-      }
-
       /* Some type of desktop */
 
-      @media all and (min-width: 481px) and (max-width: 1600px) {
+      @media all and (min-width: 481px) {
         :root {
           --toolbar-height: {
             height: 64px;
           }
         }
       }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+      }
+
     </style>
 
-    <pager-auth></pager-auth>
+    <pager-auth id="auth" user="[[user]]"></pager-auth>
 
     <firebase-app auth-domain="help-pager.firebaseapp.com" database-url="https://help-pager.firebaseio.com/" api-key="AIzaSyCzt5XZJqWCSOszJeHkem6LN4MuyXylI7w"
       storage-bucket="help-pager.appspot.com" messaging-sender-id="745636416194">
@@ -130,8 +123,8 @@
       <pager-user-icon user="[[user]]"></pager-user-icon>
     </app-toolbar>
 
-    <main class="container">
-      <div>
+    <main>
+      <section class="main-columns">
         <div class="side-view row">
           <section id="introduction" class="col s1">
             <h2>What is this?</h2>
@@ -141,40 +134,31 @@
           </section>
         </div>
 
-        <section id="pageButtonContainer" class="container-page-button col s1">
-          <div>
-            <iron-image class="admin-marquee" src="../images/willie-marquee.png" sizing="cover" preload fade></iron-image>
+          <section id="adminList" class="col s1">
+            <h2>Your helpers</h2>
             <div>
-              <span class="caption-text">Willie Chalmers III</span>
+              <iron-image class="admin-marquee" src="../images/willie-marquee.png" sizing="cover" preload fade></iron-image>
+              <div>
+                <span class="caption-text">Willie Chalmers III</span>
+              </div>
             </div>
-          </div>
-          <pager-button id="mainButton" on-click="openDialog"></pager-button>
-          <span class="main-text">[[getAvailabilityText()]]</span>
-        </section>
-      </div>
+            <span class="main-text">[[getAvailabilityText()]]</span>
+          </section>
+      </section>
+
+      <section id="pageButtonContainer" class="container-page-button col s1">
+        <pager-button id="mainButton" on-click="openDialog"></pager-button>
+      </section>
 
       <template is="dom-if" if="[[true]]">
         <section id="latestRequests" class="row">
           <pager-admin></pager-admin>
+          Testing
         </section>
       </template>
     </main>
 
-    <footer class="container">
-      <div class="row">
-        <div class="col 13 s12">
-          <h2>About Willie Chalmers III</h2>
-          <p>I'm a student freelance programmer that makes projects that help people carry out their everyday lives in a more
-            productive manner. If this project helped you in some manner, that makes me very happy.
-          </p>
-        </div>
-        <div class="col 13 s12">
-          <h2>More about my projects</h2>
-          <a href="https://sites.google.com/view/willie-projects/page-willie">Page Willie, in depth</a>
-          <a href="https://sites.google.com/view/willie-projects/">Projects like this</a>
-        </div>
-      </div>
-    </footer>
+    <pager-footer></pager-footer>
 
     <paper-toast id="errorMessage" text="Sorry, I couldn't do that. Try again later."></paper-toast>
     <paper-toast id="offlineMessage" text="Page Willie requires an internet connection. Please check your network connection and try again."></paper-toast>
@@ -211,6 +195,18 @@
         this.$.pageWillieDialog.open();
       }
 
+      showGenericError() {
+        this.$.errorMessage.show();
+      }
+
+      showConnectivityError() {
+        this.$.offlineMessage.show();
+      }
+
+      showRequestMessage() {
+        this.$.requestMessage.show();
+      }
+
       handleAuthError(e) {
         console.error('Error when signing in', e);
         // TODO: Show auth-related toast
@@ -220,6 +216,10 @@
       enableButton(option) {
         // TOOD: Use with query selector to allow multiple paging buttons
         this.$.mainButton.disabled = !option;
+      }
+
+      _onPageSent() {
+
       }
 
       _onError(errorCode) {
