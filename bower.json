@@ -3,7 +3,7 @@
   "description": "An app that lets one ask Willie Chalmers III for help",
   "main": "index.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^2.0.0",
+    "polymer": "Polymer/polymer#^2.5.0",
     "paper-button": "^2.0.0",
     "app-layout": "^2.0.4",
     "polymerfire": "firebase/polymerfire#^2.2.1",
@@ -19,7 +19,8 @@
     "iron-image": "^2.1.2",
     "paper-dialog-scrollable": "^2.1.0",
     "paper-menu-button": "^2.0.0",
-    "paper-card": "PolymerElements/paper-card#^2.0.0"
+    "paper-card": "PolymerElements/paper-card#^2.0.0",
+    "app-route": "PolymerElements/app-route#^2.0.3"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",

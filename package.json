@@ -32,5 +32,8 @@
       ],
       "extensions": "html,js,json"
     }
+  },
+  "dependencies": {
+    "flamelink": "^0.14.0"
   }
 }
