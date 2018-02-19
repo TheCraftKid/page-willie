@@ -1,0 +1,145 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-styles/typography.html">
+
+<link rel="import" href="pager-styles.html">
+
+<dom-module id="willie-footer">
+  <template>
+    <style>
+      #wrapper {
+        width: 100%;
+      }
+
+      footer {
+        background: var(--paper-grey-600);
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 1fr) 240px;
+        grid-template-rows: 1fr 32px;
+        color: white;
+        grid-column-gap: 16px;
+      }
+
+      @media (max-width: 600px) {
+        footer {
+          grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        }
+      }
+
+      @media (min-width: 1024px) {
+        footer {
+          grid-column-gap: 24px;
+        }
+      }
+
+      a {
+        color: white;
+        opacity: 70%;
+        text-decoration: none;
+      }
+
+      ul {
+        list-style-type: none;
+      }
+
+      .container {
+        padding: 16px;
+      }
+
+      .about-willie {
+        grid-column-start: 2;
+        grid-column-end: 4;
+      }
+
+      .social-media-container {
+        grid-column: 4;
+      }
+
+      .social-media-item {
+        display: flex;
+        align-items: center;
+        margin-top: 8px;
+      }
+
+      .social-media-icon {
+        height: 16px;
+      }
+
+      .social-media-icon .social-media-tag {
+        height: 16px;
+        vertical-align: middle;
+      }
+
+      .social-media-tag {
+        margin-left: 8px;
+      }
+
+      .bottom-bar {
+        @apply --paper-font-caption;
+        background: var(--paper-grey-700);
+        text-align: center;
+        grid-column-start: 1;
+        grid-column-end: 5;
+        justify-content: center;
+      }
+    </style>
+
+    <div id="wrapper">
+      <footer>
+        <slot></slot>
+        <div class="container site-info">
+          <h2>More like this</h2>
+          <p>My other projects</p>
+          <ul>
+            <li>
+              <a href="https://sites.google.com/view/willie-projects/page-willie">Page Willie, in depth</a>
+            </li>
+            <li>
+              <a href="https://sites.google.com/view/willie-projects/">Projects like this</a>
+            </li>
+          </ul>
+        </div>
+        <div class="container about-willie">
+          <h2>About me</h2>
+          <p>I'm a student freelance programmer that makes projects that help people carry out their everyday lives in more
+            productive ways.
+          </p>
+        </div>
+        <div class="container social-media-container">
+          <div class="social-media-item">
+            <img src="/images/GitHub_icon_32px.png" class="social-media-icon">
+            <span class="social-media-tag">
+              <a href="https://github.com/TheCraftKid">TheCraftKid</a>
+            </span>
+          </div>
+          <div class="social-media-item">
+            <img src="/images/Twitter_icon.png" class="social-media-icon">
+            <span class="social-media-tag">
+              <a href="https://twitter.com/@WillieCubed">@WillieCubed</a>
+            </span>
+          </div>
+        </div>
+        <div class="container bottom-bar">
+          <span>
+            © 2017 Willie Chalmers III
+          </span>
+        </div>
+      </footer>
+    </div>
+
+  </template>
+  <script>
+    /**
+     * A standard footer for Willie's projects.
+     *
+     * @customElement
+     * @polymer
+     */
+    class WillieFooter extends Polymer.Element {
+      static get is() {
+        return 'willie-footer';
+      }
+    }
+
+    window.customElements.define(WillieFooter.is, WillieFooter);
+  </script>
+</dom-module>
