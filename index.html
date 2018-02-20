@@ -27,27 +27,31 @@
     }
   </script>
 
-  <link rel="preload" as="style" href="/src/styles.css">
   <link rel="import" href="/src/pager-app.html">
-  <!-- Load Materialize -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.2/css/materialize.min.css">
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
   <link rel="stylesheet" href="/src/styles.css">
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script src="https://www.googletagmanager.com/gtag/js?id=UA-99670122-2" async></script>
+  <!-- <script src="https://www.googletagmanager.com/gtag/js?id=UA-99670122-2" async></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
     gtag('config', 'UA-99670122-2');
-  </script>
+  </script> -->
 </head>
 
 <body>
-  <pager-app id="app"></pager-app>
+  <pager-app></pager-app>
+  <noscript>
+    <h1>JavaScript not enabled</h1>
+    <div>Please enable JavaScript to page Willie.</div>
+    <div>
+      <a href="/help.html#javascript">Learn more</a>
+    </div>
+  </noscript>
 </body>
 
 </html>
