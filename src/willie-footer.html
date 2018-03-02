@@ -73,12 +73,15 @@
         margin-left: 8px;
       }
 
-      .bottom-bar {
+      .copyright-bar {
         @apply --paper-font-caption;
-        background: var(--paper-grey-700);
-        text-align: center;
+        display: flex;
+        height: 32px;
+        flex-direction: column;
         grid-column-start: 1;
         grid-column-end: 5;
+        background: var(--paper-grey-700);
+        text-align: center;
         justify-content: center;
       }
     </style>
@@ -118,7 +121,7 @@
             </span>
           </div>
         </div>
-        <div class="container bottom-bar">
+        <div class="copyright-bar">
           <span>
             © 2017 Willie Chalmers III
           </span>
@@ -137,6 +140,15 @@
     class WillieFooter extends Polymer.Element {
       static get is() {
         return 'willie-footer';
+      }
+
+      static get properties() {
+        return {
+          socialMedia: {
+            type: Array,
+
+          },
+        };
       }
     }
 
