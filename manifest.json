@@ -1,6 +1,6 @@
 {
-  "name": "Page Dr. Willie",
-  "short_name": "Dr. Willie",
+  "name": "Page Willie",
+  "short_name": "Page Willie",
   "description": "An app to request for help from Willie Chalmers III",
   "version": "1.0.0",
   "theme_color": "#2196f3",
@@ -9,6 +9,7 @@
   "orientation": "portrait",
   "scope": "/",
   "start_url": "/",
+  "gcm_sender_id": "103953800507",
   "icons": [
     {
       "src": "images/icons/icon-72x72.png",
