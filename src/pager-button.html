@@ -5,7 +5,7 @@
 
 <dom-module id="pager-button">
   <template>
-    <style>
+    <style include="pager-styles">
       :host {
         display: block;
       }
@@ -15,17 +15,20 @@
       }
     </style>
 
-    <paper-button id="mainButton" class="main-button" disabled="[[disabled]]" raised>Page Willie</paper-button>
+    <paper-button id="mainButton" class="main-button" disabled="[[disabled]]" raised>Page [[name]]</paper-button>
   </template>
+
   <script>
     /**
-     * A styled button specially designed for one purpose: to pass through
-     * paging requests.
+     * A button that displays the name of someone to request help.
+     *
+     * Attach a on-click event listener to respond to click events.
      *
      * @customElement
      * @polymer
      */
     class PagerButton extends Polymer.Element {
+
       static get is() {
         return 'pager-button';
       }
@@ -35,8 +38,12 @@
           disabled: {
             type: Boolean,
             value: false,
+            reflectToAttribute: true,
           },
-        }
+          name: {
+            type: String,
+          },
+        };
       }
     }
 
