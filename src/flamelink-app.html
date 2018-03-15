@@ -1,0 +1,45 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="flamelink-app">
+  <script src="../node_modules/flamelink/dist/flamelink.js"></script>
+  <script>
+    /**
+     * A Polymer binding for the Flamelink CMS.
+     *
+     * @customElement
+     * @polymer
+     */
+    class FlamelinkApp extends Polymer.Element {
+
+      static get is() {
+        return 'flamelink-app';
+      }
+
+      static get properties() {
+        return {
+          firebaseApp: Object,
+          app: {
+            type: Object,
+            readOnly: true,
+            computed: '_initApp(firebaseApp)',
+            notify: true,
+          },
+        };
+      }
+
+      _initApp(firebaseApp) {
+        return flamelink({ firebaseApp });
+      }
+
+      fetch(schema) {
+        return this.app.content.get(schema);
+      }
+
+      subscribe(schema, callback) {
+        return this.app.content.subscribe(schema, callback);
+      }
+    }
+
+    window.customElements.define(FlamelinkApp.is, FlamelinkApp);
+  </script>
+</dom-module>
