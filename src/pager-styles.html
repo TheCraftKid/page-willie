@@ -1,10 +1,16 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../bower_components/paper-styles/typography.html">
+<link rel="import" href="../bower_components/paper-styles/color.html">
 
 <dom-module id="pager-styles">
   <template>
     <style include="iron-flex iron-flex-alignment">
+      :host {
+        --app-primary-color: var(--paper-blue-500);
+        --app-secondary-color: var(--paper-green-a200);
+      }
+
       --pager-element-base {
         @apply --paper-font-base;
         --app-primary-color: var(--paper-blue-500);
@@ -21,6 +27,11 @@
 
       --pager-element-container-item {
         @apply --layout-wrap;
+      }
+
+      --pager-view {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
       }
     </style>
   </template>
