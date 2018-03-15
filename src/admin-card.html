@@ -1,0 +1,86 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-styles/typography.html">
+<link rel="import" href="../bower_components/paper-styles/color.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+
+<link rel="import" href="pager-button.html">
+
+<dom-module id="admin-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .indicator-container {
+        display: block;
+      }
+
+      .indicator-icon {
+        display: inline-block;
+        border-radius: 100%;
+        width: 4px;
+        height: 4px;
+        background: var(--paper-gray-700);
+      }
+
+      .indicator-icon[active] {
+        background: var(--paper-green-400);
+      }
+
+      .availability-text {
+        @apply --paper-font-caption;
+      }
+
+      iron-image {
+        width: 192px;
+        height: 192px;
+        background-color: #E0E0E0;
+      }
+    </style>
+
+    <paper-card>
+      <!-- TODO: Replace src with admin.imageSrc -->
+      <iron-image src="../images/willie-marquee.png" sizing="cover" preload fade></iron-image>
+      <div>
+        <span class="first-name">[[admin.firstName]]</span>&nbsp
+        <span class="last-name">[[admin.lastname]]</span>
+      </div>
+      <pager-button name="[[admin.firstName]]"></pager-button>
+      <div class="indicator-container">
+        <div class="indicator-icon" active$="[[admin.isAvailable]]"></div>
+        <span class="availability-text">[[getAvailabilityText()]]</span>
+      </div>
+    </paper-card>
+  </template>
+  <script>
+    /**
+     * A card that displays profile information for one admin.
+     * 
+     * @customElement
+     * @polymer
+     */
+    class AdminCard extends Polymer.Element {
+
+      static get is() {
+        return 'admin-card';
+      }
+
+      static get properties() {
+        return {
+          admin: Object,
+        };
+      }
+
+      getAvailabilityText() {
+        if (this.admin) {
+          return this.admin.isAvailable ? 'Available' : 'Not available';
+        }
+        return '';
+      }
+    }
+
+    window.customElements.define(AdminCard.is, AdminCard);
+  </script>
+</dom-module>
