@@ -1,0 +1,51 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+
+<link rel="import" href="updates-card.html">
+
+<dom-module id="pager-info">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      #introduction {
+        padding: 8px;
+      }
+      
+      paper-card:not(:first-child) {
+        margin-top: 8px;
+      }
+      
+      paper-card {
+        padding: 16px;
+        min-width: 128px;
+      }
+    </style>
+    <section id="introduction">
+      <paper-card>
+        <h2>What is this?</h2>
+        <p>Page Willie is a service that allows you to request help from Willie Chalmers III, your tech help lord and savior.</p>
+      </paper-card>
+      <updates-card></updates-card>
+    </section>
+  </template>
+
+  <script>
+    /**
+     * An element that serves as an about information box for this app
+     *
+     * @customElement
+     * @polymer
+     */
+    class PagerInfo extends Polymer.Element {
+      
+      static get is() {
+        return 'pager-info';
+      }
+    }
+
+    window.customElements.define(PagerInfo.is, PagerInfo);
+  </script>
+</dom-module>
