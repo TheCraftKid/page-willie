@@ -1,0 +1,76 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-styles/typography.html">
+
+<link rel="import" href="flamelink-app.html">
+
+<dom-module id="updates-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .content {
+        @apply --paper-font-caption;
+      }
+
+      .subtitle {
+        @apply --paper-font-subtitle;
+      }
+    </style>
+
+    <flamelink-app app="{{flamelinkApp}}"></flamelink-app>
+
+    <paper-card header="Updates">
+      <dom-repeat items="[[entries]]" as="entry">
+        <div class="post-title">[[entry.title]]</div>
+        <div class="subtitle-container">
+          <span class="date">[[entry.date]]</span> -
+          <span class="subtitle">[[entry.subtitle]]</span>
+        </div>
+        <div class="content">[[entry.content]]</div>
+      </dom-repeat>
+    </paper-card>
+  </template>
+
+  <script>
+    /**
+     * A material design-themed card that shows updates and changelogs for 
+     * a project.
+     * 
+     * To use this element, simply pass in a Flamelink app
+     * TODO: Provide docs link to schema
+     *
+     * @customElements
+     * @polymer
+     */
+    class UpdatesCard extends Polymer.Element {
+
+      static get is() {
+        return 'updates-card';
+      }
+
+      static get properties() {
+        return {
+          flamelinkApp: {
+            type: Object,
+            observer: '_onFlamelinkInit',
+          },
+          entries: {
+            type: Array,
+          },
+        };
+      }
+
+      _onFlamelinkInit(app) {
+        app.get('updatePosts').then((posts) => {
+          console.log('Update posts:', posts);
+          this.entries = posts;
+        });
+      }
+    }
+
+    window.customElements.define(UpdatesCard.is, UpdatesCard);
+  </script>
+</dom-module>
