@@ -1,0 +1,56 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-if.html">
+
+<link rel="import" href="admin-card.html">
+
+<dom-module id="admin-list-container">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .container {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        padding: 8px;
+      }
+    </style>
+
+    <h2>Your helpers</h2>
+    <dom-if if="[[admins]]">
+      <div class="container">
+        <dom-repeat is="dom-repeat" items="[[admins]]" as="admin">
+          <admin-card admin="[[admin]]"></admin-card>
+        </dom-repeat>
+      </div>
+    </dom-if>
+  </template>
+
+  <script>
+    /**
+     * A carousel of admins that work with Page Willie.
+     *
+     * @customElement
+     * @polymer
+     */
+    class AdminListContainer extends Polymer.Element {
+
+      static get is() {
+        return 'admin-list-container';
+      }
+
+      static get properties() {
+        return {
+          admins: {
+            type: Array,
+          },
+        };
+      }
+    }
+
+    window.customElements.define(AdminListContainer.is, AdminListContainer);
+  </script>
+</dom-module>
