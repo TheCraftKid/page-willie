@@ -1,0 +1,19 @@
+/* Styles for Helpdesk */
+section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8px;
+}
+
+article {
+  max-width: 600px;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 16px;
+  flex: 1;
+}
