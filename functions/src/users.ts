@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
-import { Event } from "firebase-functions";
-import { UserRecord } from "firebase-functions/lib/providers/auth";
+import { Event } from 'firebase-functions';
+import { UserRecord } from 'firebase-functions/lib/providers/auth';
 
 // TODO: Replace me with stock image
 const DEFAULT_IMAGE = 'https://lorempixel.com/192/192';
@@ -59,7 +59,7 @@ export function deleteUserRecord(event: Event<UserRecord>) {
  *
  * @param {String} name The name to generate an image off of
  */
-function generateUserImage(name: String) {
+function generateUserImage(name: string) {
   // TODO: Generate image based off name
   return DEFAULT_IMAGE;
 }
@@ -70,9 +70,14 @@ function generateUserImage(name: String) {
  * @param {UserRecord} user The user to notify
  */
 function afterCreateUser(user: UserRecord) {
-  ensureVerifiedEmail(user.email, user.emailVerified);
-  sendWelcomeEmail(user.email);
-  console.log(`Successfully created user record for ${uid}`)
+  console.log(`Successfully created user record for ${user.uid}`);
+  ensureVerifiedEmail(user.email, user.emailVerified)
+    .then((verified) => {
+      sendWelcomeEmail(user.email);
+    })
+    .catch((e) => {
+      console.error(`Couldn't send verification email to user ${user}`, e);
+    });
 }
 
 /**
@@ -82,10 +87,11 @@ function afterCreateUser(user: UserRecord) {
  * @param {Boolean} isVerified True if a user's email has been verified
  *                    through authentication
  */
-function ensureVerifiedEmail(email: String, isVerified: Boolean) {
+function ensureVerifiedEmail(email: string, isVerified: boolean): Promise<void> {
   if (!isVerified) {
     // TODO: Send email 
   }
+  return Promise.resolve();
 }
 
 /**
@@ -96,7 +102,7 @@ function ensureVerifiedEmail(email: String, isVerified: Boolean) {
  *
  * @param {String} email A real email address to send a message
  */
-function sendWelcomeEmail(email: String) {
+function sendWelcomeEmail(email: string) {
   // TODO: Send email
 }
 
@@ -108,6 +114,22 @@ function sendWelcomeEmail(email: String) {
  *
  * @param {String} email A real email address to send a message
  */
-function sendGoodbyeEmail(email: String) {
+function sendGoodbyeEmail(email: string) {
   // TODO: Send email
+}
+
+/**
+ * A model representing a user stored in the database, not used for auth.
+ */
+export interface User {
+  readonly id: string,
+  readonly name: string,
+  readonly email: string,
+  readonly imageUrl: String,
+  readonly devices: Array<Device>,
+}
+
+export interface Device {
+  readonly preferred: boolean,
+  readonly fcmToken: string,
 }
