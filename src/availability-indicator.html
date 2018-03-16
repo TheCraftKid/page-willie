@@ -1,0 +1,77 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-styles/color.html">
+<link rel="import" href="../bower_components/paper-styles/typography.html">
+
+<dom-module id="availability-indicator">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      #icon {
+        display: inline-block;
+        height: 16px;
+        width: 16px;
+        border-radius: 50%;
+        background-color: var(--paper-red-500, red);
+      }
+
+      #icon[available] {
+        background-color: var(--paper-green-500, green);
+      }
+
+      .container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        height: 48px;
+      }
+
+      #status {
+        margin-left: 8px;
+      }
+    </style>
+    <div class="container">
+      <span id="icon" available$="[[available]]"></span>
+      <span id="status" class="paper-font-caption">[[status]]</span>
+    </div>
+  </template>
+
+  <script>
+    /**
+     * An indicator that displays the availability of an arbtitary entity.
+     * 
+     * This displays an icon that is red when something is not available and
+     * green when it becomes available.
+     */
+    class AvailabilityIndicator extends Polymer.Element {
+
+      static get is() {
+        return 'availability-indicator';
+      }
+
+      static get properties() {
+        return {
+          available: {
+            type: Boolean,
+            value: false,
+            reflectToAttribute: true,
+          },
+          status: {
+            type: String,
+            value: 'Unvailable',
+            computed: '_computeStatus(available)',
+          },
+        };
+      }
+
+      _computeStatus(available) {
+        return available ? 'Available' : 'Unavailable';
+      }
+    }
+
+    customElements.define(AvailabilityIndicator.is, AvailabilityIndicator);
+  </script>
+</dom-module>
