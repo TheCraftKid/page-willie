@@ -1,0 +1,28 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/pager-app.html",
+  "fragments": [
+    "src/views/request-view.html"
+  ],
+  "sources": [
+    "images/**/*",
+    "src/**/*"
+  ],
+  "extraDependencies": [
+    "bower_components/webcomponentsjs/*.js",
+    "!bower_components/webcomponentsjs/gulpfile.js",
+    "manifest.json"
+  ],
+  "lint": {
+    "rules": ["polymer-2"]
+  },
+  "builds": [
+    {
+      "preset": "es5-bundled"
+    },
+    {
+      "name": "default",
+      "preset": "es6-bundled"
+    }
+  ]
+}

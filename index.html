@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+  <title>Page Willie</title>
+  <meta name="description" content="Get help from Willie Chalmers III and his team of smarty pants.">
+  <link rel="shortcut icon" href="images/manifest/icon-72x72.png">
+
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#009688">
+
+  <!-- Add to homescreen for Chrome on Android. Fallback for manifest.json -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Page Willie">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Page Willie">
+
+  <!-- Homescreen icons -->
+  <link rel="apple-touch-icon" href="images/manifest/icon-48x48.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="images/manifest/icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="96x96" href="images/manifest/icon-96x96.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="images/manifest/icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="images/manifest/icon-192x192.png">
+
+  <!-- Tile icon for Windows 8 -->
+  <meta name="msapplication-TileImage" content="images/manifest/icon-144x144.png">
+  <meta name="msapplication-TileColor" content="#009688">
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(() => {
+            console.info('Service worker registered. Offline functionality enabled.');
+          })
+          .catch((e) => {
+            console.error('Could not register service worker', e);
+          });
+      });
+    }
+  </script>
+
+  <link rel="stylesheet" href="static/styles.css">
+  <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+
+  <link rel="import" href="src/pager-app.html">
+
+</head>
+
+<body>
+  <noscript>
+    <header class="site-header">
+      <a href="/">Page Willie</a>
+    </header>
+    <div class="no-js info-card">
+      <h3>JavaScript not enabled</h3>
+      <p>Please turn on JavaScript to use Page Willie.</p>
+      <a class="flat-button" href="static/help/index.html#javascript">Learn more</a>
+    </div>
+  </noscript>
+  <pager-app></pager-app>
+</body>
+
+</html>

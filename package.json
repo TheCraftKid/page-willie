@@ -1,0 +1,25 @@
+{
+  "name": "page-willie",
+  "description": "A web app that allows one to request help from Willie Chalmers III",
+  "author": {
+    "name": "Willie Chalmers III",
+    "email": "willieechalmers@gmail.com",
+    "url": "https://thecraftkid.github.io/"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-google": "^0.7.0",
+    "eslint-plugin-html": "^2.0.0",
+    "firebase-tools": "^3.17.6"
+  },
+  "scripts": {
+    "start": "npx polymer serve",
+    "build": "npx polymer build",
+    "lint": "yarn run lint:javascript && polymer lint",
+    "lint:javascript": "eslint . --ext js,html --ignore-path .gitignore",
+    "test": "polymer test",
+    "test:integration": "polymer build # test that psk builds without error with the CLI"
+  },
+  "private": true
+}
