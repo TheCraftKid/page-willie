@@ -1,9 +1,16 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<link rel="import" href="../pager-request-dialog.html">
+<link rel="import" href="../admin-display-list.html">
 
 <dom-module id="request-view">
   <template>
-
+    <iron-ajax id="adminRequest" url="/admin" handle-as="json"></iron-ajax>
+    <pager-request-dialog id="requestDialog" on-request="sendRequest"></pager-request-dialog>
+    <admin-display-list admins="[[admins]]"></admin-display-list>
   </template>
+
   <script>
     /**
      * A view that allows a user to request an admin for help.
@@ -16,8 +23,39 @@
 
       static get properties() {
         return {
-
+          admins: {
+            type: Array,
+            readOnly: true,
+            value() {
+              return [
+                {
+                  id: '1',
+                  firstName: 'Willie',
+                  lastName: 'Chalmers III',
+                  themeColor: '#009688',
+                  bio: 'Just a boy that likes to help out.',
+                  available: true,
+                  imageUrl: 'https://lorempixel.com/512/512',
+                  socialMedia: [
+                    {
+                      service: 'twit',
+                      username: '@WillieCubed',
+                    },
+                  ],
+                },
+              ];
+            },
+          },
         };
+      }
+
+      ready() {
+        this.addEventListener('request', this._handleRequest);
+      }
+
+      _handleRequest(event) {
+        const adminId = event.detail.requestedAdmin;
+        this.$.requestDialog.show();
       }
     }
 
