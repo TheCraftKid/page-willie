@@ -1,0 +1,156 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-styles/typography.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+
+<link rel="import" href="availability-indicator.html">
+
+<dom-module id="admin-card">
+  <template>
+    <style>
+      .bio {
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+
+      .toggle-button {
+        float: right;
+      }
+
+      .more-info {
+        padding: 8px;
+      }
+
+      .image-container {
+        height: 40px;
+        widows: 40px;
+        position: relative;
+        overflow: hidden;
+        border-radius: 50%;
+      }
+
+      .name {
+        @apply --paper-font-headline;
+      }
+
+      .availability-container {
+        display: flex;
+      }
+
+      iron-image {
+        background-color: var(--paper-grey-300);
+      }
+    </style>
+    <paper-card class$="_computeStyles()">
+      <div class="card-content">
+        <div class="image-container">
+          <iron-image src="[[imageUrl]]" sizing="cover" preload fade></iron-image>
+        </div>
+        <span class="name">[[name]]</span>
+        <div class="availability-container">
+          <availability-indicator available="[[available]]"></availability-indicator>
+        </div>
+      </div>
+      <div class="card-actions">
+        <paper-button on-click="requestHelp">Request help</paper-button>
+        <paper-icon-button class="toggle-button" icon="[[_toggleIcon]]" title="About [[name]]" on-click="toggleBio">
+        </paper-icon-button>
+        <iron-collapse id="bioContainer" class="more-info">
+          <div class="bio">[[bio]]</div>
+          <div class="social-media">
+            <dom-repeat items="[[socialMedia]]" as="media">
+              <div class="social-media">
+                <span class="service">[[media.service]]</span> -
+                <span class="link">[[media.url]]</span>
+              </div>
+            </dom-repeat>
+          </div>
+        </iron-collapse>
+      </div>
+    </paper-card>
+  </template>
+
+  <script>
+    /**
+     * A paper-card that displays information about an admin.
+     */
+    class AdminCard extends Polymer.Element {
+
+      static get is() {
+        return 'admin-card';
+      }
+
+      static get properties() {
+        return {
+          id: String,
+          firstName: String,
+          lastName: String,
+          email: String,
+          themeColor: {
+            type: String,
+            value: '#ffffff',
+          },
+          name: {
+            type: String,
+            computed: '_computeFullName(firstName, lastName)',
+          },
+          imageUrl: String,
+          bio: String,
+          socialMedia: Array,
+          available: {
+            type: Boolean,
+            value: false,
+          },
+          _showingBio: {
+            type: Boolean,
+            value: false,
+            observer: 'toggleBio'
+          },
+          _toggleIcon: {
+            type: String,
+            computed: '_computeToggleIcon()',
+          }
+        };
+      }
+
+      static observers() {
+        return [
+          '_computeFullName(firstName, lastName)'
+        ];
+      }
+
+      toggleBio(showing) {
+        this.$.bioContainer.toggle();
+      }
+
+      requestHelp(adminId) {
+        this.dispatchEvent(new CustomEvent('request', {
+          detail: {
+            requestedAdmin: this.id,
+          },
+          composed: true,
+        }));
+      }
+
+      _computeAvailability() {
+        return this.available ? 'Available' : 'Unavailable';
+      }
+
+      _computeToggleIcon() {
+        return this._showingBio ? 'hardware:keyboard-arrow-down' : 'hardware:keyboard-arrow-up';
+      }
+
+      _computeFullName(firstName, lastName) {
+        return `${firstName} ${lastName}`;
+      }
+
+      _computeStyles() {
+        return `background-color: ${themeColor}`;
+      }
+    }
+
+    customElements.define(AdminCard.is, AdminCard);
+  </script>
+</dom-module>
