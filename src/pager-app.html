@@ -1,4 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-if.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
@@ -7,13 +8,17 @@
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
 
 <link rel="import" href="shared-styles.html">
 
 <link rel="lazy-import" href="views/request-view.html">
+<link rel="lazy-import" href="views/admin-console.html">
 
 <dom-module id="pager-app">
   <template>
@@ -53,16 +58,10 @@
       }
     </style>
 
-    <app-location
-        route="{{route}}"
-        url-space-regex="^[[rootPath]]">
+    <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
     </app-location>
 
-    <app-route
-        route="{{route}}"
-        pattern="[[rootPath]]:page"
-        data="{{routeData}}"
-        tail="{{subroute}}">
+    <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}">
     </app-route>
 
     <app-drawer-layout fullbleed narrow="{{narrow}}">
@@ -71,27 +70,31 @@
         <app-toolbar>Menu</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
           <a name="request" href="[[rootPath]]request">Request</a>
+          <template is="dom-if" if="[[user.isAdmin]]">
+            <a name="admin" href="[[rootPath]]admin">Admin console</a>
+          </template>
         </iron-selector>
       </app-drawer>
 
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
-
         <app-header slot="header" condenses reveals effects="waterfall">
           <app-toolbar>
-            <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
+            <paper-icon-button icon="icons:menu" drawer-toggle></paper-icon-button>
             <div main-title>Page Willie</div>
+            <paper-tabs selected="0">
+
+            </paper-tabs>
           </app-toolbar>
         </app-header>
 
-        <iron-pages
-            selected="[[page]]"
-            attr-for-selected="name"
-            fallback-selection=""
-            role="main">
+        <iron-pages selected="[[page]]" attr-for-selected="name" role="main">
           <request-view name="request"></request-view>
+          <admin-console name="admin" user="[[user]]"></admin-console>
         </iron-pages>
       </app-header-layout>
+
+      <paper-toast id="404toast"></paper-toast>
     </app-drawer-layout>
   </template>
 
@@ -100,8 +103,14 @@
     // preventable, allowing for better scrolling performance.
     Polymer.setPassiveTouchGestures(true);
 
+    /**
+     * An app that lets users request for help and admin respond to requests.
+     */
     class PagerApp extends Polymer.Element {
-      static get is() { return 'pager-app'; }
+
+      static get is() {
+        return 'pager-app';
+      }
 
       static get properties() {
         return {
@@ -115,6 +124,14 @@
           // This shouldn't be neccessary, but the Analyzer isn't picking up
           // Polymer.Element#rootPath
           rootPath: String,
+          user: {
+            type: Object,
+            value() {
+              return {
+                isAdmin: true,
+              };
+            },
+          },
         };
       }
 
@@ -136,17 +153,17 @@
       }
 
       _pageChanged(page) {
-        // Load page import on demand. Show 404 page if fails
         let pageId;
         if (page === 'request') {
-          pageId = 'request-view'
+          pageId = 'request-view';
+        } else if (page === 'admin') {
+          pageId = 'admin-console'
+        } else {
+          pageId = 'request';
         }
         const resolvedPageUrl = this.resolveUrl(`views/${pageId}.html`);
-        Polymer.importHref(
-            resolvedPageUrl,
-            null,
-            this._showPage404.bind(this),
-            true);
+        Polymer.importHref(resolvedPageUrl, null, this._showPage404.bind(this),
+          true);
       }
 
       _showPage404() {
